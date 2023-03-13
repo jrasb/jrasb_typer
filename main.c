@@ -1,29 +1,32 @@
 #include <raylib.h>
 #include <stdlib.h>
 
+char paragraphs[] = {
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+};
+
 int main(void) {
-    int screenHeight = 720;
-    int screenWidth = 1280;
+    const int screenHeight = 720;
+    const int screenWidth = 1280;
 
-    Texture2D backgroundImage;
+    /* Initialise window and audio */
+    InitWindow(screenWidth, screenHeight, "Jrasb Typer");
+    InitAudioDevice();
 
-    InitWindow(screenWidth, screenHeight, "Raylib!");
-
-    backgroundImage = LoadTexture("./resources/textures/yuno.png");
-    
     SetTargetFPS(144);
 
+    /* Main game loop */
     while(!WindowShouldClose()) {
-        /*KEY PRESS EVENTS HERE*/
+
+        /* KEY PRESS EVENTS HERE */
         if (IsKeyPressed(KEY_F11)) {
             ToggleFullscreen();
         }
 
+        /* Drawing begins here*/
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
-
-        DrawTexture(backgroundImage, 100, 100, WHITE);
         
         EndDrawing();
     }
