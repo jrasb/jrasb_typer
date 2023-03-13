@@ -47,3 +47,11 @@ larger projects.
 * C# is a mostly Object oriented programming language, which makes it hard for 
 people that have a hard time with abstract structure types.
 
+### Target Audience
+This is a game meant for people who wish to learn to type fast, type without 
+looking at their keyboard. Or for people who simply wish to brag about their
+fast typing speed.
+
+### Costs
+Besides the cost on my mental healths, there will be no additional costs, due to
+me using free and open source software.
