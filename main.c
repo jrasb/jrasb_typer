@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include <string.h>
 #include <time.h>
 #include <stdlib.h>
 
@@ -6,6 +7,13 @@
 
 int returnRandomNumber(int range, int min) {
     return rand() % range + min;
+}
+
+float calculateAccuracy(float paragraphCharacters, float mistakes) {
+    // Accuracy = Characters in paragraph / Mistakes * 100%
+    float accuracy = (paragraphCharacters / mistakes) * 100;
+
+    return accuracy;
 }
 
 int main(void) {
@@ -33,6 +41,8 @@ int main(void) {
     char text[MAX_CHARS] = "\0";
     int letterCount = 0;
     int randomNumber = returnRandomNumber(4, 0);
+    int mistakes = 0; 
+    char accuracy = calculateAccuracy(strlen(source[randomNumber]), mistakes); 
 
     yuno = LoadTexture("./resources/textures/yuno.png");
 
@@ -43,14 +53,18 @@ int main(void) {
         int key = GetCharPressed();
 
         while (key > 0) {
-
             if ((key >= 32) && (key <= 125) && (letterCount < MAX_CHARS)) {
                 text[letterCount] = (char)key;
                 text[letterCount+1] = '\0';
                 letterCount++;
+
+                if (key != source[randomNumber][letterCount]) {
+                    mistakes++;
+                }
+
             }
 
-            key = GetCharPressed();
+        key = GetCharPressed();
         }
 
         if (IsKeyPressed(KEY_BACKSPACE)) {
@@ -64,16 +78,22 @@ int main(void) {
             ToggleFullscreen();
         }
 
-
         /* Drawing begins here*/
         BeginDrawing();
 
-        ClearBackground(MAROON);
+        ClearBackground(RAYWHITE);
         DrawTexture(yuno, 100, 250, WHITE);
 
         DrawRectangleRec(textBox, LIGHTGRAY);
-        DrawText(text, (int)textBox.x + 5, (int)textBox.y + 8, 40, RAYWHITE);
-        DrawText(source[randomNumber], 0, 0, 20, WHITE);
+        DrawText(text, (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);
+        DrawText(source[randomNumber], 0, 0, 20, MAROON);
+
+        // Debug text
+        DrawText(TextFormat("ACCURACY: %i%%", accuracy), 100, 100, 20, MAROON);
+        DrawText(TextFormat("Source string length: %i", strlen(source[randomNumber])), 100, 150, 20, MAROON);
+        DrawText(TextFormat("Letter count: %i", letterCount), 100, 200, 20, MAROON);
+        DrawText(TextFormat("MISTAKES: %i", mistakes), 100, 250, 20, RED);
+        DrawText(TextFormat("CURRENT LETTER: %c", source[randomNumber][letterCount]), 100, 300, 20, BLACK);
 
         EndDrawing();
     }
