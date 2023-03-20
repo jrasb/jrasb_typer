@@ -1,19 +1,27 @@
 #include <raylib.h>
+#include <time.h>
 #include <stdlib.h>
 
 #define MAX_CHARS 128
 
+int returnRandomNumber(int range, int min) {
+    return rand() % range + min;
+}
+
 int main(void) {
+
+    // Seeding random number generator
+    srand(time(NULL));
+
     const int screenHeight = 720;
     const int screenWidth = 1280;
 
-    char source[] = {
-        "There is no escape from this worst gangster police state"        
-    };
-
-    for (int i = 0; i < source[i] != 0; i++) {
-        
-    }
+    // Sentences to type
+    const char *source[128];
+    source[0] = "Death to America! And butter sauce!";
+    source[1] = "There is no escape from this worst gangster police state";
+    source[2] = "Demo typing...";
+    source[3] = "The roads of Northern Ireland will run red with the blood of the redcoats";
 
     Texture2D yuno;
     Rectangle textBox = { 0, (float)(screenHeight)/2, 255, 0 } ;
@@ -24,6 +32,7 @@ int main(void) {
 
     char text[MAX_CHARS] = "\0";
     int letterCount = 0;
+    int randomNumber = returnRandomNumber(4, 0);
 
     yuno = LoadTexture("./resources/textures/yuno.png");
 
@@ -64,7 +73,7 @@ int main(void) {
 
         DrawRectangleRec(textBox, LIGHTGRAY);
         DrawText(text, (int)textBox.x + 5, (int)textBox.y + 8, 40, RAYWHITE);
-        DrawText(&source[0], 0, 0, 20, WHITE);
+        DrawText(source[randomNumber], 0, 0, 20, WHITE);
 
         EndDrawing();
     }
