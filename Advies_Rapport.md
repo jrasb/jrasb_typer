@@ -1,5 +1,19 @@
 # Advies Rapport
 
+* [3 Engines](#3-engines)
+   * [Unreal](#unreal)
+      * [Pros](#pros)
+      * [Cons](#cons)
+   * [Godot](#godot)
+      * [Pros](#pros-1)
+      * [Cons](#cons-1)
+   * [Unity](#unity)
+      * [Pros](#pros-2)
+      * [Cons](#cons-2)
+* [Target Audience](#target-audience)
+* [Costs](#costs)
+* [Engine of choice](#engine-of-choice)
+
 ## 3 engines
 
 ### Unreal
@@ -55,3 +69,14 @@ fast typing speed.
 ### Costs
 Besides the cost on my mental healths, there will be no additional costs, due to
 me using free and open source software.
+
+## Engine of choice
+
+I have decided to work on my project in C with raylib.
+Technically not an engine but a framework/library to make work with graphic 
+applications easier.
+
+I have chosen to use this instead of an existing engine because this is 
+extremely lightweight, portable, and allows me to work with pure C. As I have
+experience with this programming language, and no engine really allows you to
+work with C alone, I decided to choose this.

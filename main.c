@@ -9,13 +9,6 @@ int returnRandomNumber(int range, int min) {
     return rand() % range + min;
 }
 
-float calculateAccuracy(float paragraphCharacters, float mistakes) {
-    // Accuracy = Characters in paragraph / Mistakes * 100%
-    float accuracy = (paragraphCharacters / mistakes) * 100;
-
-    return accuracy;
-}
-
 int main(void) {
 
     // Seeding random number generator
@@ -57,11 +50,10 @@ int main(void) {
                 text[letterCount] = (char)key;
                 text[letterCount+1] = '\0';
                 letterCount++;
+            }
 
-                if (key != source[randomNumber][letterCount]) {
-                    mistakes++;
-                }
-
+            if (key != source[randomNumber][letterCount]) {
+                mistakes++;
             }
 
         key = GetCharPressed();
@@ -94,6 +86,7 @@ int main(void) {
         DrawText(TextFormat("Letter count: %i", letterCount), 100, 200, 20, MAROON);
         DrawText(TextFormat("MISTAKES: %i", mistakes), 100, 250, 20, RED);
         DrawText(TextFormat("CURRENT LETTER: %c", source[randomNumber][letterCount]), 100, 300, 20, BLACK);
+        DrawText(TextFormat("CURRENT PRESSED KEY: %c", GetCharPressed()), 100, 350, 20, BLUE);
 
         EndDrawing();
     }

@@ -1,6 +1,11 @@
 # Jrasb Typer
 Design doc for Agile Gamedesign classes 2022-2023
 
+
+* [General description](#general-description)
+* [How will this be achieved](#how-will-this-be-achieved)
+* [Interface](#interface)
+
 ## General Description
 The game has a simple premise. You get a random paragraph of text displayed on
 your screen, and you have to type what appears under your cursor. If you type 
