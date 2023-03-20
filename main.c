@@ -7,8 +7,16 @@ int main(void) {
     const int screenHeight = 720;
     const int screenWidth = 1280;
 
+    char source[] = {
+        "There is no escape from this worst gangster police state"        
+    };
+
+    for (int i = 0; i < source[i] != 0; i++) {
+        
+    }
+
     Texture2D yuno;
-    Rectangle textBox = { 0, 180, 255, 0 } ;
+    Rectangle textBox = { 0, (float)(screenHeight)/2, 255, 0 } ;
 
     /* Initialise window and audio */
     InitWindow(screenWidth, screenHeight, "Jrasb Typer");
@@ -51,11 +59,12 @@ int main(void) {
         /* Drawing begins here*/
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
-        DrawTexture(yuno, 100, 250, RAYWHITE);
+        ClearBackground(MAROON);
+        DrawTexture(yuno, 100, 250, WHITE);
 
         DrawRectangleRec(textBox, LIGHTGRAY);
-        DrawText(text, (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);
+        DrawText(text, (int)textBox.x + 5, (int)textBox.y + 8, 40, RAYWHITE);
+        DrawText(&source[0], 0, 0, 20, WHITE);
 
         EndDrawing();
     }
