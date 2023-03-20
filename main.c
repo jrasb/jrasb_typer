@@ -8,7 +8,7 @@ int main(void) {
     const int screenWidth = 1280;
 
     Texture2D yuno;
-    Rectangle textBox = { screenWidth/2.0f - 100, 180, 255, 0} ;
+    Rectangle textBox = { 0, 180, 255, 0 } ;
 
     /* Initialise window and audio */
     InitWindow(screenWidth, screenHeight, "Jrasb Typer");
@@ -23,10 +23,10 @@ int main(void) {
 
     /* Main game loop */
     while(!WindowShouldClose()) {
-
         int key = GetCharPressed();
 
         while (key > 0) {
+
             if ((key >= 32) && (key <= 125) && (letterCount < MAX_CHARS)) {
                 text[letterCount] = (char)key;
                 text[letterCount+1] = '\0';
@@ -52,6 +52,7 @@ int main(void) {
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
+        DrawTexture(yuno, 100, 250, RAYWHITE);
 
         DrawRectangleRec(textBox, LIGHTGRAY);
         DrawText(text, (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);
