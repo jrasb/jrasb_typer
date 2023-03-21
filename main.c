@@ -2,6 +2,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #define MAX_CHARS 128
 
@@ -33,30 +34,36 @@ int main(void) {
 
     char text[MAX_CHARS] = "\0";
     int letterCount = 0;
-    int randomNumber = returnRandomNumber(4, 0);
+    const int randomNumber = returnRandomNumber(4, 0);
     int mistakes = 0; 
-    char accuracy = calculateAccuracy(strlen(source[randomNumber]), mistakes); 
+    float accuracy; 
 
     yuno = LoadTexture("./resources/textures/yuno.png");
 
-    SetTargetFPS(144);
+    SetTargetFPS(10);
 
     /* Main game loop */
     while(!WindowShouldClose()) {
-        int key = GetCharPressed();
+        // printf("begin loop randomNumber: %i", randomNumber);
+        int unikey = GetCharPressed();
+        int keypressed = GetKeyPressed();
 
-        while (key > 0) {
-            if ((key >= 32) && (key <= 125) && (letterCount < MAX_CHARS)) {
-                text[letterCount] = (char)key;
+        // accuracy = (((float)strlen(&source[randomNumber][letterCount]))/mistakes)*100;
+
+        while (unikey > 0) {
+            if ((unikey >= 32) && (unikey <= 125) && (letterCount < MAX_CHARS)) {
+                text[letterCount] = (char)unikey;
                 text[letterCount+1] = '\0';
                 letterCount++;
             }
 
-            if (key != source[randomNumber][letterCount]) {
+            if (keypressed != source[randomNumber][letterCount]) {
                 mistakes++;
+                printf("%i\n", unikey);
+                printf("%i\n", keypressed);
             }
 
-        key = GetCharPressed();
+        unikey = GetCharPressed();
         }
 
         if (IsKeyPressed(KEY_BACKSPACE)) {
@@ -77,7 +84,8 @@ int main(void) {
         DrawTexture(yuno, 100, 250, WHITE);
 
         DrawRectangleRec(textBox, LIGHTGRAY);
-        DrawText(text, (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);
+        DrawText(text, (int)textBox.x + 5, (int)textBox.y + 8, 30, MAROON);
+        // Current sentece rendering
         DrawText(source[randomNumber], 0, 0, 20, MAROON);
 
         // Debug text
@@ -86,7 +94,7 @@ int main(void) {
         DrawText(TextFormat("Letter count: %i", letterCount), 100, 200, 20, MAROON);
         DrawText(TextFormat("MISTAKES: %i", mistakes), 100, 250, 20, RED);
         DrawText(TextFormat("CURRENT LETTER: %c", source[randomNumber][letterCount]), 100, 300, 20, BLACK);
-        DrawText(TextFormat("CURRENT PRESSED KEY: %c", GetCharPressed()), 100, 350, 20, BLUE);
+        // DrawText(TextFormat("CURRENT PRESSED KEY: %c", key), 100, 350, 20, BLUE);
 
         EndDrawing();
     }
@@ -96,3 +104,20 @@ int main(void) {
 
     return 0;
 }
+
+/*
+    DEVLOG 2023-03-22
+
+    It would appear that somewhere along the process of calculating the 
+    accuracy, something goes horribly wrong. I did check and it is not the fact
+    that the randomNumber changes with every single delta time. I have however
+    figured out what the getCharPressed() and getKeyPressed() functions return.
+    
+    The getCharPressed() function returns the unicode of the current key being
+    pressed whereas getKeyPressed() returns the keycode itself. (Both of these
+    as int)
+
+    I am currently trying to figure out how to go between the characters in the
+    strings I have prepared, and the unicode/keycode so that the mistake 
+    counter doesn't go up with every single keystroke.
+*/
