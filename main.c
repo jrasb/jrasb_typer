@@ -32,7 +32,7 @@ int main(void) {
     InitWindow(screenWidth, screenHeight, "Jrasb Typer");
     InitAudioDevice();
 
-    char text[MAX_CHARS] = "\0";
+    char text[MAX_CHARS + 1] = "\0";
     int letterCount = 0;
     const int randomNumber = returnRandomNumber(4, 0);
     int mistakes = 0; 
@@ -40,7 +40,7 @@ int main(void) {
 
     yuno = LoadTexture("./resources/textures/yuno.png");
 
-    SetTargetFPS(10);
+    SetTargetFPS(144);
 
     /* Main game loop */
     while(!WindowShouldClose()) {
@@ -57,11 +57,13 @@ int main(void) {
                 letterCount++;
             }
 
-            if (keypressed != source[randomNumber][letterCount]) {
+            if ((char)keypressed != source[randomNumber][letterCount - 1]) {
                 mistakes++;
-                printf("%i\n", unikey);
-                printf("%i\n", keypressed);
+                printf("%c\n", (char)unikey);
+                printf("%c\n", (char)keypressed);
             }
+
+            printf("to press key: %c\n", source[randomNumber][letterCount]);
 
         unikey = GetCharPressed();
         }
@@ -94,7 +96,6 @@ int main(void) {
         DrawText(TextFormat("Letter count: %i", letterCount), 100, 200, 20, MAROON);
         DrawText(TextFormat("MISTAKES: %i", mistakes), 100, 250, 20, RED);
         DrawText(TextFormat("CURRENT LETTER: %c", source[randomNumber][letterCount]), 100, 300, 20, BLACK);
-        // DrawText(TextFormat("CURRENT PRESSED KEY: %c", key), 100, 350, 20, BLUE);
 
         EndDrawing();
     }
@@ -120,4 +121,13 @@ int main(void) {
     I am currently trying to figure out how to go between the characters in the
     strings I have prepared, and the unicode/keycode so that the mistake 
     counter doesn't go up with every single keystroke.
+*/
+
+/*
+    DEVLOG 2023-03-22 12:35
+
+    Figured out how to convert int keycodes/unicodes into characters.
+    This was the sole cause of why my mistake counter didnt work properly.
+    I am still trying to figure out the proper formula for the accuracy 
+    caculation.
 */
