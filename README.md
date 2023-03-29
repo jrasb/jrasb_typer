@@ -13,7 +13,7 @@ Built with raylib in C
 
 ---
 
-![Gameplay Screenshot](./resources/screenshots/Screenshot%20at%202023-03-30%2000-25-00.png "Screenshot of a sentence being typed");
+![Gameplay Screenshot](./resources/screenshots/Screenshot%20at%202023-03-30%2000-25-00.png "Screenshot of a sentence being typed")
 
 *Gameplay screenshot*
 
