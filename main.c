@@ -10,6 +10,12 @@ int returnRandomNumber(int range, int min) {
     return rand() % range + min;
 }
 
+float calcAndReturnAccuracy(int stringLength, int mistakes) {
+    float accuracy = (100 / (stringLength / mistakes));
+
+    return accuracy;
+}
+
 int main(void) {
 
     // Seeding random number generator
@@ -25,7 +31,7 @@ int main(void) {
     source[2] = "Demo typing...";
     source[3] = "The roads of Northern Ireland will run red with the blood of the redcoats";
 
-    Texture2D yuno;
+    Texture2D tealBackground;
     Rectangle textBox = { 0, (float)(screenHeight)/2, 255, 0 } ;
 
     /* Initialise window and audio */
@@ -38,7 +44,12 @@ int main(void) {
     int mistakes = 0; 
     float accuracy; 
 
-    yuno = LoadTexture("./resources/textures/yuno.png");
+
+    /* TEXTURES */
+    // yuno = LoadTexture("./resources/textures/yuno.png");
+
+    /* IMAGES */
+    tealBackground = LoadTexture("./resources/backgrounds/tealBackground.png");
 
     SetTargetFPS(144);
 
@@ -48,19 +59,20 @@ int main(void) {
         int unikey = GetCharPressed();
         int keypressed = GetKeyPressed();
 
-        // accuracy = (((float)strlen(&source[randomNumber][letterCount]))/mistakes)*100;
+    //    accuracy = calcAndReturnAccuracy(strlen(source[randomNumber]), mistakes); 
 
         while (unikey > 0) {
             if ((unikey >= 32) && (unikey <= 125) && (letterCount < MAX_CHARS)) {
                 text[letterCount] = (char)unikey;
+                printf("unikey: %c\n", (char)unikey);
+                printf("keypressed: %c\n", (char)keypressed);
                 text[letterCount+1] = '\0';
                 letterCount++;
             }
 
-            if ((char)keypressed != source[randomNumber][letterCount - 1]) {
+            if ((char)unikey != source[randomNumber][letterCount - 1]) {
                 mistakes++;
-                printf("%c\n", (char)unikey);
-                printf("%c\n", (char)keypressed);
+
             }
 
             printf("to press key: %c\n", source[randomNumber][letterCount]);
@@ -83,7 +95,7 @@ int main(void) {
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
-        DrawTexture(yuno, 100, 250, WHITE);
+        DrawTexture(tealBackground, 0, 0, WHITE);
 
         DrawRectangleRec(textBox, LIGHTGRAY);
         DrawText(text, (int)textBox.x + 5, (int)textBox.y + 8, 30, MAROON);
@@ -91,7 +103,7 @@ int main(void) {
         DrawText(source[randomNumber], 0, 0, 20, MAROON);
 
         // Debug text
-        DrawText(TextFormat("ACCURACY: %i%%", accuracy), 100, 100, 20, MAROON);
+        DrawText(TextFormat("ACCURACY: %.2lf%%", accuracy), 100, 100, 20, MAROON);
         DrawText(TextFormat("Source string length: %i", strlen(source[randomNumber])), 100, 150, 20, MAROON);
         DrawText(TextFormat("Letter count: %i", letterCount), 100, 200, 20, MAROON);
         DrawText(TextFormat("MISTAKES: %i", mistakes), 100, 250, 20, RED);

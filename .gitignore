@@ -1,0 +1,6 @@
+# no need for the outside main testing folder as it's not related to the main project.
+/outside_main_testing_folder
+/outside_main_testing_folder/*
+
+# no need for the compiled file
+/a.out
