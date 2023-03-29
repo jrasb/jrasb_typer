@@ -1,3 +1,4 @@
+#include <bits/time.h>
 #include <raylib.h>
 #include <string.h>
 #include <time.h>
@@ -30,6 +31,8 @@ int main(void) {
     source[1] = "There is no escape from this worst gangster police state";
     source[2] = "Demo typing...";
     source[3] = "The roads of Northern Ireland will run red with the blood of the redcoats";
+    source[4] = "Lorem ipsum dolor sit amet";
+    source[5] = "This is but a mere demo, expect better in the future!";
 
     Texture2D tealBackground;
     Rectangle textBox = { 0, (float)(screenHeight)/2, 255, 0 } ;
@@ -37,53 +40,55 @@ int main(void) {
     /* Initialise window and audio */
     InitWindow(screenWidth, screenHeight, "Jrasb Typer");
     InitAudioDevice();
+    
 
     char text[MAX_CHARS + 1] = "\0";
     int letterCount = 0;
-    const int randomNumber = returnRandomNumber(4, 0);
+    /* Set range to amount of unique lines in source[] */
+    const int randomNumber = returnRandomNumber(5, 0);
     int mistakes = 0; 
-    float precisionPercentage; 
+    float precisionPercentage;
+    float frameTime;
+    float stopwatch;
 
-
-    /* TEXTURES */
-    // yuno = LoadTexture("./resources/textures/yuno.png");
-
-    /* IMAGES */
+    /* load background */
     tealBackground = LoadTexture("./resources/backgrounds/tealBackground.png");
 
     SetTargetFPS(144);
 
     /* Main game loop */
     while(!WindowShouldClose()) {
-        // printf("begin loop randomNumber: %i", randomNumber);
+        /* Gets unicode char when key is pressed */
         int unikey = GetCharPressed();
-        int keypressed = GetKeyPressed();
+        frameTime = GetFrameTime();
+        
 
+        /* Updates precision value every single frame */
         precisionPercentage = calcAndReturnAccuracy(strlen(source[randomNumber]), mistakes);
 
-        while (unikey > 0) {
-            if ((unikey >= 32) && (unikey <= 125) && (letterCount < MAX_CHARS)) {
-                text[letterCount] = (char)unikey;
-                printf("unikey: %c\n", (char)unikey);
-                printf("keypressed: %c\n", (char)keypressed);
-                text[letterCount+1] = '\0';
-                letterCount++;
+        if ((letterCount) != strlen(source[randomNumber])) {
+            stopwatch += frameTime;
+
+            while (unikey > 0) {
+                if ((unikey >= 32) && (unikey <= 125) && (letterCount < MAX_CHARS)) {
+                    text[letterCount] = (char)unikey;
+                    text[letterCount+1] = '\0';
+                    letterCount++;
+                }
+
+                if ((char)unikey != source[randomNumber][letterCount - 1]) {
+                    mistakes++;
+                }
+
+            unikey = GetCharPressed();
             }
 
-            if ((char)unikey != source[randomNumber][letterCount - 1]) {
-                mistakes++;
-
+            /* Backspace functionality */
+            if (IsKeyPressed(KEY_BACKSPACE)) {
+                letterCount--;
+                if (letterCount < 0) letterCount = 0;
+                text[letterCount] = '\0';
             }
-
-            printf("to press key: %c\n", source[randomNumber][letterCount]);
-
-        unikey = GetCharPressed();
-        }
-
-        if (IsKeyPressed(KEY_BACKSPACE)) {
-            letterCount--;
-            if (letterCount < 0) letterCount = 0;
-            text[letterCount] = '\0';
         }
 
         /* KEY PRESS EVENTS HERE */
@@ -91,20 +96,35 @@ int main(void) {
             ToggleFullscreen();
         }
 
+        if (IsKeyDown(KEY_R) && IsKeyDown(KEY_LEFT_CONTROL)) {
+            main();
+            CloseWindow();
+        }
+        
+
         /* Drawing begins here*/
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
         DrawTexture(tealBackground, 0, 0, WHITE);
 
-        DrawRectangleRec(textBox, LIGHTGRAY);
-        DrawText(text, (int)textBox.x + 5, (int)textBox.y + 8, 30, MAROON);
+        
         // Current sentece rendering
-        DrawText(source[randomNumber], 0, 0, 20, MAROON);
+        DrawText(source[randomNumber], (int)textBox.x + 5, (int)textBox.y + 8, 30, LIGHTGRAY);
+        
+        // Drawing typed text to screen
+        DrawRectangleRec(textBox, LIGHTGRAY);
+        DrawText(text, (int)textBox.x + 5, (int)textBox.y + 8, 30, DARKGRAY);
 
         // Debug text
-        DrawText(TextFormat("ACCURACY: %.2lf%%", precisionPercentage), 100, 100, 20, MAROON);
+        DrawText("ESC to exit", 0, 0, 20, MAROON);
+        DrawText("F11 to fullscreen", screenWidth - 170, 0, 20, MAROON);
+        DrawText(TextFormat("TIMER: %f", stopwatch), 100, 150, 20, MAROON);
+        DrawText(TextFormat("ACCURACY: %.2lf%%", precisionPercentage), 100, 200, 20, MAROON);
         DrawText(TextFormat("MISTAKES: %i", mistakes), 100, 250, 20, RED);
+        if (letterCount == strlen(source[randomNumber])) {
+            DrawText("Well done! press Ctrl+R to reload the game!", 100, 400, 30, MAROON);
+        }
         DrawText(TextFormat("CURRENT LETTER: %c", source[randomNumber][letterCount]), 100, 300, 20, BLACK);
 
         EndDrawing();
