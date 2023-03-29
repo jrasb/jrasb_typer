@@ -10,10 +10,10 @@ int returnRandomNumber(int range, int min) {
     return rand() % range + min;
 }
 
-float calcAndReturnAccuracy(int stringLength, int mistakes) {
-    float accuracy = (100 / (stringLength / mistakes));
+float calcAndReturnAccuracy(float stringLength, int mistakes) {
+    float precisionPercentage = (((stringLength - mistakes) / stringLength) * 100);
 
-    return accuracy;
+    return precisionPercentage;
 }
 
 int main(void) {
@@ -59,7 +59,7 @@ int main(void) {
         int unikey = GetCharPressed();
         int keypressed = GetKeyPressed();
 
-    //    accuracy = calcAndReturnAccuracy(strlen(source[randomNumber]), mistakes); 
+        accuracy = calcAndReturnAccuracy(strlen(source[randomNumber]), mistakes);
 
         while (unikey > 0) {
             if ((unikey >= 32) && (unikey <= 125) && (letterCount < MAX_CHARS)) {
