@@ -1,3 +1,6 @@
+# no gitignore necessary in final repo
+/.gitignore
+
 # no need for the outside main testing folder as it's not related to the main project.
 /outside_main_testing_folder
 /outside_main_testing_folder/*
