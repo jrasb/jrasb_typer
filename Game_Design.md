@@ -26,7 +26,7 @@ go down.
 * Amount of characters in paragraph (C) (Integer)
 * Amount of mistakes made when typing (M) (Integer)
 
-> A = C/M * 100%
+> A = (C - M) / C * 100%
 
 ## Interface
 The interface will be relatively simple. It will be a static background with a 

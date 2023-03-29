@@ -42,7 +42,7 @@ int main(void) {
     int letterCount = 0;
     const int randomNumber = returnRandomNumber(4, 0);
     int mistakes = 0; 
-    float accuracy; 
+    float precisionPercentage; 
 
 
     /* TEXTURES */
@@ -59,7 +59,7 @@ int main(void) {
         int unikey = GetCharPressed();
         int keypressed = GetKeyPressed();
 
-        accuracy = calcAndReturnAccuracy(strlen(source[randomNumber]), mistakes);
+        precisionPercentage = calcAndReturnAccuracy(strlen(source[randomNumber]), mistakes);
 
         while (unikey > 0) {
             if ((unikey >= 32) && (unikey <= 125) && (letterCount < MAX_CHARS)) {
@@ -103,9 +103,7 @@ int main(void) {
         DrawText(source[randomNumber], 0, 0, 20, MAROON);
 
         // Debug text
-        DrawText(TextFormat("ACCURACY: %.2lf%%", accuracy), 100, 100, 20, MAROON);
-        DrawText(TextFormat("Source string length: %i", strlen(source[randomNumber])), 100, 150, 20, MAROON);
-        DrawText(TextFormat("Letter count: %i", letterCount), 100, 200, 20, MAROON);
+        DrawText(TextFormat("ACCURACY: %.2lf%%", precisionPercentage), 100, 100, 20, MAROON);
         DrawText(TextFormat("MISTAKES: %i", mistakes), 100, 250, 20, RED);
         DrawText(TextFormat("CURRENT LETTER: %c", source[randomNumber][letterCount]), 100, 300, 20, BLACK);
 
@@ -142,4 +140,22 @@ int main(void) {
     This was the sole cause of why my mistake counter didnt work properly.
     I am still trying to figure out the proper formula for the accuracy 
     caculation.
+*/
+
+/*
+    DEVLOG 2023-03-29
+
+    Figured out how to calculate the accuracy properly and found out why
+    it wasn't correctly counting mistakes when counting. Turns out i was
+    checking for keycodes, while i should have been using unicodes that get
+    returned when using getCharPressed().
+
+    Accuracy has been renamed to precisionPercentage, and has been altered when
+    it comes to calculating said percentage:
+
+    P% = (SL - M) / SL * 100%
+    where:
+        P% = Precision Percentage
+        SL = String Length
+        M = Mistakes
 */
